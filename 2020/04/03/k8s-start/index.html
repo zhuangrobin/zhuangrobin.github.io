@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>k8s-start | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="k8s 作为一个编排系统容器编排系统，其被广泛的运用于生产部署服务。极大地简化了开发人员将其服务分发到各个生产服务器的步骤。其依赖的容器技术使得其所分发的每个单元之间拥有较好的隔离性。 故事的开始 kubeadm 是一个快捷构建 k8s 集群的工具。   kubectl 是 k8s 用于与集群进行交互的命令行工具  搭建一个 k8s 集群只需要以下几行命令，然后便可向集群提交配置文件运行服务 12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s-start">
+<meta property="og:url" content="http://yoursite.com/2020/04/03/k8s-start/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="k8s 作为一个编排系统容器编排系统，其被广泛的运用于生产部署服务。极大地简化了开发人员将其服务分发到各个生产服务器的步骤。其依赖的容器技术使得其所分发的每个单元之间拥有较好的隔离性。 故事的开始 kubeadm 是一个快捷构建 k8s 集群的工具。   kubectl 是 k8s 用于与集群进行交互的命令行工具  搭建一个 k8s 集群只需要以下几行命令，然后便可向集群提交配置文件运行服务 12">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-03T21:39:55.000Z">
+<meta property="article:modified_time" content="2020-04-08T00:25:22.273Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-k8s-start" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/03/k8s-start/" class="article-date">
+  <time datetime="2020-04-03T21:39:55.000Z" itemprop="datePublished">2020-04-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      k8s-start
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>k8s 作为一个编排系统容器编排系统，其被广泛的运用于生产部署服务。极大地简化了开发人员将其服务分发到各个生产服务器的步骤。<br>其依赖的容器技术使得其所分发的每个单元之间拥有较好的隔离性。</p>
+<h1 id="故事的开始"><a href="#故事的开始" class="headerlink" title="故事的开始"></a>故事的开始</h1><blockquote>
+<p><code>kubeadm</code> 是一个快捷构建 k8s 集群的工具。</p>
+</blockquote>
+<blockquote>
+<p><code>kubectl</code> 是 k8s 用于与集群进行交互的命令行工具</p>
+</blockquote>
+<p>搭建一个 k8s 集群只需要以下几行命令，然后便可向集群提交配置文件运行服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> node 1</span></span><br><span class="line">kubeadm init --pod-network-cidr=192.168.0.0/16</span><br><span class="line"><span class="meta">#</span><span class="bash"> node 2</span></span><br><span class="line">kubeadm join &lt;control-plane-host&gt;:&lt;control-plane-port&gt; --token &lt;token&gt; --discovery-token-ca-cert-hash sha256:&lt;hash&gt;</span><br><span class="line"><span class="meta">#</span><span class="bash"> client</span></span><br><span class="line">kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml</span><br></pre></td></tr></table></figure>
+<h1 id="搭建-kubernete-集群所需要的基本组件"><a href="#搭建-kubernete-集群所需要的基本组件" class="headerlink" title="搭建 kubernete 集群所需要的基本组件"></a>搭建 kubernete 集群所需要的基本组件</h1><p>k8s 集群中每台机器称作一个<code>node</code>，<code>node</code>有分为<code>crontrol-plane</code>和<code>worker</code>两种，<code>crontrol-plane</code>负责将用户的请求分析并分发到集群中，<code>worker</code>则负责运行实际任务。</p>
+<p>部署<code>crontrol-plane</code>节点需要以下几个核心组件:</p>
+<ul>
+<li><p><code>apiserver</code> 负责提供集群的 api 服务，是用户与 k8s 集群交互的入口，同时也是集群中的服务观察集群状态的入口。k8s 中的 api 都被设计为声明式的，即用户只需要关心集群的最终状态是怎样的，具体集群是怎样到达这种状态的由集群负责。而用户描述集群状态则需要通过一系列的资源配置表述出来。</p>
+</li>
+<li><p><code>controller-manager</code>则是管理集群中的<code>controller</code>实例，controller 被用于管理集群各种资源的状态，不同的资源会由不同的 controller 管理。因此<code>controller-manager</code>可以理解为管理整个集群状态的组件</p>
+</li>
+<li><p><code>scheduler</code> 则用于调度集群中的资源</p>
+</li>
+<li><p><code>etcd</code> 则用于存储集群中的各类信息</p>
+</li>
+</ul>
+<p><code>worker</code>节点所需的核心组件则有以下几个：</p>
+<ul>
+<li><p><code>kubelet</code>作为一个 agent 负责管理当前<code>node</code>与集群相关的一切事物</p>
+</li>
+<li><p><code>kube-proxy</code>管理当前节点关于集群网络的规则</p>
+</li>
+</ul>
+<h1 id="kubeadm-为你简化的流程"><a href="#kubeadm-为你简化的流程" class="headerlink" title="kubeadm 为你简化的流程"></a>kubeadm 为你简化的流程</h1><h2 id="kubeadm-init"><a href="#kubeadm-init" class="headerlink" title="kubeadm init"></a>kubeadm init</h2><p><code>kubeadm init</code>命令将当前机器初始化为<code>crontrol-plane</code>节点，而初始化<code>control-plane</code>节点的步骤大致有以下几步：</p>
+<ul>
+<li>检查宿主机环境，如 swap 是否开启</li>
+<li>生成自签名 TLS 证书</li>
+<li>生成 <code>kubelet</code> 相关的 kubeconfig，<code>static pod</code>配置文件</li>
+</ul>
+<blockquote>
+<p>k8s 集群中可调度的最小单元被称作<code>pod</code>，而<code>static pod</code>则是不被集群系统管理只被当前节点管理的单元。</p>
+</blockquote>
+<ul>
+<li>启动<code>kubelet</code>，由<code>kubelet</code>启动相关的<code>static pod</code></li>
+<li>生成<code>worker</code>节点加入集群<code>tls bootstrapping</code>所需的token、<code>configmap</code>、<code>csr</code>的 <code>auto-approval</code></li>
+</ul>
+<blockquote>
+<p><code>configmap</code>是 k8s 集群中用于存储配置的对象</p>
+</blockquote>
+<blockquote>
+<p><code>tls bootstrapping</code>是新加入的节点与 control-plane 节点相互建立信任及通信的过程。</p>
+</blockquote>
+<blockquote>
+<p><code>csr</code>(certificate signing request)是 k8s 集群中用于 tls 认证的资源，当集群中的 pod 需要访问 apiserver 时就需要发送一个 csr ，然后等待管理员用<code>kubectl certificate approve</code>批准该请求， pod 才可以正常访问集群的 apiserver。 kubeadm 中将该批准流程自动化为所有的请求均批准。</p>
+</blockquote>
+<ul>
+<li>启动<code>kube-proxy</code> <code>daemonset</code> 以及 <code>kube-dns</code> <code>deployment</code></li>
+</ul>
+<blockquote>
+<p><code>daemonset</code>是 k8s 中的一种资源，其用于保证集群中的每个 node 都有对应 pod 的副本，一般用于提供每个节点需要的基础服务或者守护进程。而 <code>deployment</code> 是另外一种资源，其用于保证集群中有指定数量的 pod 的副本正在运行。</p>
+</blockquote>
+<blockquote>
+<p><code>kube-dns</code>是 k8s 提供用于集群内部域名解析的服务。</p>
+</blockquote>
+<h2 id="kubectl-join"><a href="#kubectl-join" class="headerlink" title="kubectl join"></a>kubectl join</h2><p><code>kubeadm join</code> 命令将机器初始化为一个<code>worker</code>节点，初始化<code>worker</code>节点分为以下几个步骤：</p>
+<ul>
+<li>检查宿主机环境</li>
+<li>从 control-plane 下载集群相关信息</li>
+<li>启动 kubelet，进行<code>tls bootstrapping</code>过程</li>
+<li>当前节点加入到集群中之后，kube-proxy daemonset 便会在当前节点启动一个实例</li>
+</ul>
+<blockquote>
+<p><code>tls bootstrapping</code>具体步骤为：先使用命令行传入的 token 访问 apiserver，然后提交 csr，csr 被 control-plane auto approve，后续当前节点便可自由连接 apiserver。</p>
+</blockquote>
+<h2 id="kubectl-apply-f-https-docs-projectcalico-org-v3-11-manifests-calico-yaml"><a href="#kubectl-apply-f-https-docs-projectcalico-org-v3-11-manifests-calico-yaml" class="headerlink" title="kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml"></a>kubectl apply -f <a href="https://docs.projectcalico.org/v3.11/manifests/calico.yaml" target="_blank" rel="noopener">https://docs.projectcalico.org/v3.11/manifests/calico.yaml</a></h2><p>在执行完上述两个步骤之后，worker node 虽然加入了集群，但会处于 not ready 的状态。因为 k8s 集群中，每个 pod 都会有唯一的 ip 地址，该地址与物理网络是完全隔离的。因此还需要一个网络插件<code>cni</code>来将集群中的网络与物理网络关联起来，而<code>calico</code>就是这样一个插件。</p>
+<p>上面的 yaml 文件会创建一系列 calico 相关的资源，然后启动 daemonset 在每个节点上的 node 部署一个 agent。当新建一个 pod 时，calico 就会将对应 ip 的路由规则写到每个 node 上，以此实现 pod 间的网络互通。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/03/k8s-start/" data-id="ck8qlcz0100040dr37z3b054f" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/07/k8s-scheduler/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          k8s-scheduler
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/authentication/" rel="tag">authentication</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduler/" rel="tag">scheduler</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/authentication/" style="font-size: 10px;">authentication</a> <a href="/tags/k8s/" style="font-size: 20px;">k8s</a> <a href="/tags/scheduler/" style="font-size: 10px;">scheduler</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/08/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/07/k8s-authentication/">k8s-authentication</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/07/k8s-scheduler/">k8s-scheduler</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/03/k8s-start/">k8s-start</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+  </div>
+</body>
+</html>
